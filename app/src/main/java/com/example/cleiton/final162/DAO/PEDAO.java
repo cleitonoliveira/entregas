@@ -13,10 +13,12 @@ public class PEDAO {
     private SQLiteDatabase db;
     private Banco banco;
     private static final String TABELA = "produto_entrega";
+    Context context;
 
 
     public PEDAO(Context context) {
         banco = new Banco(context);
+        this.context = context;
     }
     private void writable(){
         db = banco.getWritableDatabase();
@@ -31,7 +33,7 @@ public class PEDAO {
     public void salvar(PE pe){
         ContentValues values = new ContentValues();
 
-        values.put("cliente", pe.getCliente());
+        values.put("entrega", pe.getEntrega());
         values.put("produto", pe.getProduto());
         values.put("qtde", pe.getQtde());
         values.put("preco", pe.getPreco());
@@ -59,10 +61,11 @@ public class PEDAO {
         try{
             while(cursor.moveToNext()){
                 pe.setId(cursor.getInt(0));
-                pe.setCliente(cursor.getInt(1));
+                pe.setEntrega(cursor.getInt(1));
                 pe.setProduto(cursor.getInt(2));
                 pe.setQtde(cursor.getInt(3));
                 pe.setPreco(cursor.getDouble(4));
+                pe.setNomeProduto((new ProdutoDAO(context).buscar(pe.getProduto())).getNome());
             }
         }catch(SQLiteException e){
             System.out.println(e.getMessage());
@@ -86,7 +89,7 @@ public class PEDAO {
             while(cursor.moveToNext()){
                 PE pe = new PE();
                 pe.setId(cursor.getInt(0));
-                pe.setCliente(cursor.getInt(1));
+                pe.setEntrega(cursor.getInt(1));
                 pe.setProduto(cursor.getInt(2));
                 pe.setQtde(cursor.getInt(3));
                 pe.setPreco(cursor.getDouble(4));

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -15,10 +16,13 @@ import android.widget.Toast;
 
 import com.example.cleiton.final162.DAO.Entrega;
 import com.example.cleiton.final162.DAO.EntregaDAO;
+import com.example.cleiton.final162.DAO.PE;
 import com.example.cleiton.final162.DAO.PEDAO;
 import com.example.cleiton.final162.DAO.Produto;
 import com.example.cleiton.final162.DAO.ProdutoDAO;
 import com.example.cleiton.final162.R;
+
+import java.util.List;
 
 public class CadastroEntregaProduto extends AppCompatActivity {
 
@@ -27,6 +31,7 @@ public class CadastroEntregaProduto extends AppCompatActivity {
     Spinner sProduto;
     EditText qtde;
     ArrayAdapter spinner_adapter,list_adapter;
+    List<PE>pes;
     ListView lista_pedao;
 
     @Override
@@ -50,7 +55,9 @@ public class CadastroEntregaProduto extends AppCompatActivity {
         list_adapter = new ArrayAdapter<>(
             CadastroEntregaProduto.this,
             android.R.layout.simple_list_item_1,
-            new PEDAO(this).listar(entrega.getId()));
+            pes = new PEDAO(this).listar(entrega.getId()));
+        lista_pedao.setAdapter(list_adapter);
+
 
         peCliente.setText(entrega.getCliente());
         peEnd.setText(entrega.getEndereco());
@@ -61,6 +68,20 @@ public class CadastroEntregaProduto extends AppCompatActivity {
     }
 
     public void adicionarItem(View view) {
+        PE pe = new PE();
+        Produto p = (Produto)(sProduto.getSelectedItem());
+        pe.setQtde(Integer.parseInt(qtde.getText().toString()));
+        pe.setProduto(p.getId());
+        pe.setEntrega(entrega.getId());
+        pe.setPreco(p.getPreco() * pe.getQtde());
+        pe.setNomeProduto(p.getNome());
+        new PEDAO(this).salvar(pe);
+        pes = new PEDAO(this).listar(entrega.getId());
 
+        list_adapter = new ArrayAdapter<>(
+                CadastroEntregaProduto.this,
+                android.R.layout.simple_list_item_1,
+                pes = new PEDAO(this).listar(entrega.getId()));
+        lista_pedao.setAdapter(list_adapter);
     }
 }

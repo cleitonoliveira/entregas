@@ -14,14 +14,6 @@ public class PE {
         this.id = id;
     }
 
-    public int getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(int cliente) {
-        this.cliente = cliente;
-    }
-
     public int getProduto() {
         return produto;
     }
@@ -48,11 +40,26 @@ public class PE {
 
     @Override
     public String toString() {
-        return produto +" - "+ qtde +" - "+ preco;
+        return "Produto: "+nomeProduto+" - Qtde: "+ qtde +" - Preço: R$"+ preco;
+    }
+
+
+    public int getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(int entrega) {
+        this.entrega = entrega;
     }
 
     int id = 0;
-    int cliente;
+    String nomeProduto;
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+    int entrega;
     int produto;
     int qtde;
     double preco;
