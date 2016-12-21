@@ -48,10 +48,9 @@ public class ProdutoDAO {
     }
 
     public Produto buscar(int id){
-        String sql = "select * from "+ TABELA + " where id = " + id;
+        String sql = "select * from "+ TABELA + " where produto = " + id;
         readable();
         Cursor cursor = db.rawQuery(sql,null);
-        close();
 
         Produto produto = new Produto();
 
@@ -62,6 +61,8 @@ public class ProdutoDAO {
                 produto.setTipo(cursor.getString(2));
                 produto.setPreco(cursor.getDouble(3));
             }
+            close();
+
         }catch(SQLiteException e){
             System.out.println(e.getMessage());
         }

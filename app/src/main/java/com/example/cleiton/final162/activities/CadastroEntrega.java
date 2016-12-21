@@ -65,7 +65,7 @@ public class CadastroEntrega extends AppCompatActivity {
 
         //se a activity veio com um valor no intent, significa que é uma edição.
         entrega = new EntregaDAO(this).buscar(getIntent().getIntExtra("id",0));
-        if (entrega.getId() != 0){
+        if (entrega != null && entrega.getId() != 0){
             tEndereco.setText(entrega.getEndereco());
             tCliente.setText(entrega.getCliente());
             tObs.setText(entrega.getObs());
@@ -86,7 +86,7 @@ public class CadastroEntrega extends AppCompatActivity {
 
         try {
             //salva os valores.
-            new EntregaDAO(CadastroEntrega.this).salvar(entrega);
+            entrega.setId(new EntregaDAO(CadastroEntrega.this).salvar(entrega));
 
             //cria um snackbar de confirmação que só aparece se o try funcionar.
             Snackbar

@@ -112,5 +112,6 @@ public class EntregaDAO {
             db.delete(TABELA,"entrega = ?",args);
             close();
         }
+
     }
 

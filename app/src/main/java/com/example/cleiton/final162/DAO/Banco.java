@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Banco extends SQLiteOpenHelper{
 
     public static final String TABELA = "banco";
-    private static final int version = 2;
+    private static final int version = 5;
 
     public Banco(Context context) {
         super(context, TABELA, null, version);

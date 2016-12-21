@@ -1,5 +1,7 @@
 package com.example.cleiton.final162.DAO;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Cleiton on 16/12/2016.
  */
@@ -45,7 +47,8 @@ public class Produto {
 
     @Override
     public String toString() {
-        return nome + " - " + tipo + " - " + preco;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return nome + " - " + tipo + " - R$" + df.format(preco);
     }
 
 }

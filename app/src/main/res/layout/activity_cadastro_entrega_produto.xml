@@ -56,13 +56,6 @@
             android:hint="qtde"
             android:inputType="number"
             android:id="@+id/qtde"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="@string/adicionar"
-            android:onClick="adicionarItem"/>
     </LinearLayout>
 
     <ListView

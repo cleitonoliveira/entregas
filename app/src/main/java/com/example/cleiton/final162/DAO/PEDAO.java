@@ -32,26 +32,30 @@ public class PEDAO {
 
     public void salvar(PE pe){
         ContentValues values = new ContentValues();
+        writable();
 
         values.put("entrega", pe.getEntrega());
         values.put("produto", pe.getProduto());
         values.put("qtde", pe.getQtde());
         values.put("preco", pe.getPreco());
 
-        writable();
 
         if (pe.id != 0){
             String where = "pe = " + pe.id;
             db.update(TABELA, values, where, null);
         }
         else {
-            db.insert(TABELA, null, values);
+            try {
+                db.insert(TABELA, null, values);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         close();
     }
 
     public PE buscar(int id){
-        String sql = "select * from "+ TABELA + " where id = " + id;
+        String sql = "select * from "+ TABELA + " where produto = " + id;
         readable();
         Cursor cursor = db.rawQuery(sql,null);
         close();
@@ -80,7 +84,7 @@ public class PEDAO {
      * @return List<PE>
      */
     public List<PE> listar(int id){
-        String sql = "select * from "+ TABELA + " where produto = " + id;
+        String sql = "select * from "+ TABELA + " where entrega = " + id;
         readable();
         Cursor cursor = db.rawQuery(sql,null);
         List<PE> pes = new ArrayList<>();
@@ -93,6 +97,7 @@ public class PEDAO {
                 pe.setProduto(cursor.getInt(2));
                 pe.setQtde(cursor.getInt(3));
                 pe.setPreco(cursor.getDouble(4));
+                pe.setNomeProduto((new ProdutoDAO(context).buscar(pe.getProduto())).getNome());
 
                 pes.add(pe);
             }
