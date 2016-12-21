@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         app:layout_anchor="@+id/viewpager"
-        android:src="@drawable/icone_adicionar"
+        android:src="@drawable/ic_add_black_24dp"
         app:layout_anchorGravity="bottom|right"
         android:layout_gravity="center_vertical|center_horizontal"
         app:elevation="5dp"/>

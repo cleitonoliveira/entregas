@@ -1,11 +1,16 @@
 package com.example.cleiton.final162.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -54,16 +59,40 @@ public class CadastroEntregaProduto extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item,
                 new ProdutoDAO(this).listar());
         sProduto.setAdapter(spinner_adapter);
+        carregarAdaper();
 
+        peCliente.setText(entrega.getCliente());
+        peEnd.setText(entrega.getEndereco());
+
+        lista_pedao.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(CadastroEntregaProduto.this);
+                alert.setTitle("Apagar?");
+                alert.setPositiveButton("Sim", new AlertDialog.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PE p = (PE)list_adapter.getItem(position);
+                        new PEDAO(CadastroEntregaProduto.this).deletar(p.getId());
+                        carregarAdaper();
+                        list_adapter.notifyDataSetChanged();
+                    }
+                });
+                alert.show();
+                return false;
+            }
+        });
+
+    }
+
+    private void carregarAdaper() {
         list_adapter = new ArrayAdapter<>(
             CadastroEntregaProduto.this,
             android.R.layout.simple_list_item_1,pes = (new PEDAO(this).listar(entrega.getId())));
         if (list_adapter != null) {
             lista_pedao.setAdapter(list_adapter);
         }
-
-        peCliente.setText(entrega.getCliente());
-        peEnd.setText(entrega.getEndereco());
+        list_adapter.notifyDataSetChanged();
     }
 
     public void salvarEntregaProduto(View view) {
@@ -79,12 +108,7 @@ public class CadastroEntregaProduto extends AppCompatActivity {
             new PEDAO(this).salvar(pe);
             pes = new PEDAO(this).listar(entrega.getId());
 
-            list_adapter = new ArrayAdapter<>(
-                    CadastroEntregaProduto.this,
-                    android.R.layout.simple_list_item_1,
-                    pes);
-            lista_pedao.postInvalidate();
-            lista_pedao.setAdapter(list_adapter);
+            carregarAdaper();
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

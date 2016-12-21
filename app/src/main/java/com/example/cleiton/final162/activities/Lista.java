@@ -9,6 +9,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import java.util.List;
 public class Lista extends ListFragment {
 
     List<Entrega> entregas;
+    int id_selecionado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,12 +70,25 @@ public class Lista extends ListFragment {
     }
 
     @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case 1:
+                startActivity(new Intent(getContext(),Mapa.class).putExtra("id",item.getItemId()));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0,1,0,"Ver no mapa");
         menu.add(0,2,0,"Marcar como entregue");
-        menu.add(0,3,0,"Ver produtos");
-        menu.add(0,4,0,"Editar entrega");
+        menu.add(0,3,0,"Editar entrega");
     }
 
     @Override

@@ -108,8 +108,8 @@ public class PEDAO {
             return pes;
         }
 
-        public  void deletar(PE pe){
-            String args[]={pe.getId()+""};
+        public  void deletar(int id){
+            String args[]={id+""};
             writable();
             db.delete(TABELA,"pe = ?",args);
             close();
